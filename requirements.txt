@@ -1,0 +1,9 @@
+matplotlib
+torch
+torchaudio
+torchvision
+Flask
+onnx
+onnxruntime
+Pillow
+flask-cors

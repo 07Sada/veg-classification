@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Prediction</title>
+</head>
+<body>
+    <h1>Image Prediction</h1>
+    <form id="imageForm">
+        <input type="file" id="imageInput" accept="image/*" required>
+        <input type="submit" value="Predict">
+    </form>
+    <div id="resultDiv"></div>
+
+    <script>
+        document.getElementById("imageForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            var imageInput = document.getElementById("imageInput");
+            var imageFile = imageInput.files[0];
+            var formData = new FormData();
+            formData.append("image", imageFile);
+
+            fetch("/predict", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                var resultDiv = document.getElementById("resultDiv");
+                resultDiv.innerHTML = "<h3>Prediction:</h3><p>" + result.prediction + "</p>";
+
+                var image = new Image();
+                image.src = "data:image/jpeg;base64," + result.image;
+                resultDiv.appendChild(image);
+            })
+            .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>
